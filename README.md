@@ -1,8 +1,5 @@
-## rSuperCT 
-the R implemention of a computational framework to evaluate the cellular states that are oftentimes associated with the critical clinical decisions and quickly but thoroughly evaluate the known cellular states/features that are critical to the study of the samples. 
-For more information, see:
-
-  SuperFeat: A Framework of Quantitative Feature Learning and Assessment from Single-cell Transcriptomics Data
+## rSuperFeat 
+A computational framework to evaluate known cellular states that are oftentimes associated with the critical clinical decisions and drug search. Also, you can train your cell state model to score new datasets. 
 
 ## Installation
 ```{r}
@@ -12,43 +9,46 @@ devtools::install_github('weilin-genomics/rSuperFeat')
 ```
 
 ## Getting started
-Follow below steps to score five cell states (Exhaution, EMT, Hypoxia, CellCycle, Cytotoxic) for your scRNA-seq data. For now, only homo sapiens are supported. Take *pbmc_small* in Seurat package as example.
+For now, four cell states are supported Exhaustion, EMT, CellCycle and Hypoxia. 
 
-1) To score cell states on your scRNA-seq data, library-size normalized data is recommended such as data slot in pbmc_small@assays$RNA
+**1.score cell states on your scRNA-seq data**
+
+rSuperFeat takes count matrix as input then converted to a binary matrix
 ```{r}
-library(rSuperCT)
+library(rSuperFeat)
 library(Seurat)
-# default to score all cell states for your input data
+
 myscores <- scoreStates(pbmc_small@assays$RNA@data)
 
-# set larger n.chunks to split cells into more batches 
-myscores <- scoreStates(pbmc_small@assays$RNA@data, n.chunks = 100)
+# set n.chunks if large amount of cells
+myscores <- scoreStates(pbmc_small@assays$RNA@data, n.chunks = 20)
 
-# then myscores can be added to seurat object to visualize and so on
+# add myscores to seurat object to visualize
 pbmc_small = AddMetaData(pbmc_small, metadata = myscores)
+
+# print top features for specific state
+printTopWeights(stateName = "EMT", posN = 150, negN = 150)
 ```
 
-2) To score target cell states trained online on your scRNA-seq data,
-```{r}
-path_to_model_weight_file <- "w1.csv" 
-path_to_model_bias_file <- "b1.csv"
-# both can be downloaded from online website after self-defined cell states training
+**.train new models for your interested cell states.**
 
-myscores <- scoreStates_selftrain(seuObj@assays$RNA@data,
-     w1_file = path_to_model_weight_file,
-     b1_file = path_to_model_bias_file)
-     
-# or get through with example model file:
-myscores <- scoreStates_selftrain(seuObj@assays$RNA@data,
-     w1_file = system.file('extdata','w1.csv',package = 'rSuperFeat'),
-     b1_file = system.file('extdata','b1.csv',package = 'rSuperFeat'),
-     cell_state_name = "test")
+(1) prepare training data
+```{r}
+# this function will fetch Exhaustion and nonExhaustion cells in group column. binarized_data.csv and binarized_info.csv will be saved to data folder. Then use SuperFeat_trainingCode.py to train your model in python console. the weights and bias, model will be saved to models folder when traning finished.
+getMatrix(seurat, column = "group", state1 = "Exhaustion", state0 = "nonExhaustion", prefix = "data/binarized")
+```
+(2) use your model to score new scRNA-seq dataset
+```{r}
+myscores <- scoreStates_selftrain(seuObj@assays$RNA@data, w1_file = "models/w1_binarized.csv", b1_file = "models/b1_binarized.csv")
+seuObj = AddMetaData(seuObj, metadata = myscores)
 ```
 
 ## References
 [1] Xie Peng and Gao Mingxuan (2019). SuperCT: a supervised-learning framework for enhanced characterization of single-cell transcriptomic profiles. https://doi.org/10.1093/nar/gkz116. Nucleic Acids Research.
 
 [2] https://github.com/weilin-genomics/SuperCT
+
+[3] Quantitative Learning of Cellular Features From Single-cell Transcriptomics Data Facilitates Effective Drug Repurposing
 
 ## Contact
 If you have any suggestion, questions and bugs report, feel free to contact weilin.baylor@gmail.com.
