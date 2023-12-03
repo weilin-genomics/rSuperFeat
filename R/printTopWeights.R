@@ -12,7 +12,8 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' topFeaturesList <- printTopWeights(stateName = "EMT")
+#' printTopWeights(stateName = "EMT",showN=20)
+#' printTopWeights(w1_file="w1.csv",myStateName = "newState")
 #' }
 printTopWeights <- function(stateName = "EMT", w1_file = NULL, myStateName = "newState",species="human", showN = 50, print=T){
   if(is.null(w1_file)){
@@ -53,10 +54,11 @@ printTopWeights <- function(stateName = "EMT", w1_file = NULL, myStateName = "ne
           plot.subtitle = element_text(size = 8), axis.text.y = element_text(face = 'italic')) +
     labs(title = "",subtitle = paste0('', paste0("Negative Weights: ",round(range(b$neg$weight), 2)[1],"~",round(range(b$neg$weight), 2)[2])))
   gg = plot_grid(g1,g2,ncol = 2)
-
+  print(gg)
   if(print){
-    print(list(pos = as.data.frame(b$pos), neg = as.data.frame(b$neg)))
+    return(list(pos = as.data.frame(b$pos), neg = as.data.frame(b$neg)))
+  }else{
+    return(NULL)
   }
-  return(gg)
 }
 

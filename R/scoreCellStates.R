@@ -1,7 +1,8 @@
 #' the R implemention of a computational framework to evaluate the cellular states
 #' @description score the cell states on the single-cell RNA-seq digital expression profiles
 #' @param mat a features x barcodes expression matrix
-#' @param state cell state(s) to evaluate
+#' @param state cell state(s) to evaluate. For now, Optional states: Exhaustion, EMT, CellCycle, Hypoxia, Angiogenesis, Differentiation, Inflammation, Quiescent,
+#'  MacM1Polarization, MacM2Polarization, apCAFSignature, iCAFSignature, mCAFSignature, vCAFSignature, progenitorCAF in human, progenitorCAF in mouse.
 #' @param species human or mouse for now
 #' @param n.chunks split these cells into n.chunks batch
 #' @importFrom utils txtProgressBar setTxtProgressBar
@@ -24,12 +25,12 @@ scoreStates <- function(mat,
   bias = switch (species, "human" = bias.hs, "mouse" = bias.mm)
   wt = switch (species, "human" = wt.hs, "mouse" = wt.mm)
 
-  is = state[state %in% colnames(wt)]
+  is = unique(state[state %in% colnames(wt)])
   ns = state[!state %in% colnames(wt)]
-  message("Optional states: ", paste0(colnames(wt), collapse = " "), " in ", species)
   if(length(ns) > 0) message("these states not available: ", paste0(ns, collapse = " "))
   if(length(is) == 0) stop(" No states to score.")
   state = is
+  wt = wt[,state,drop=F]
 
   ig <- intersect(features, rownames(mat))
   if(length(ig)/length(features) < 2/3){
@@ -48,14 +49,13 @@ scoreStates <- function(mat,
   pb <- txtProgressBar(min = 0, max = length(cks), style = 3, char = '=')
   probs <- lapply(1:length(cks), FUN = function(i){
     mi = m[,cks[[i]],drop=F]
-    s <- Matrix::t(Matrix::t(wt[,state,drop=F]) %*% mi)
-    s <- as.data.frame(apply(s,1,function(x)x+bias[,state]))
-    colnames(s) = state
+    s <- Matrix::t(wt[,state,drop=F]) %*% mi
+    s <- s+bias[,state]
     setTxtProgressBar(pb, i)
     return(s)
   })
   close(pb)
-  out = do.call(rbind, probs)
-  return(as.data.frame(out))
+  out = as.data.frame(Matrix::t(do.call(cbind, probs)))
+  return(out)
 }
 
