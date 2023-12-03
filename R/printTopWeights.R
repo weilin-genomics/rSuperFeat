@@ -25,6 +25,7 @@ printTopWeights <- function(stateName = "EMT", w1_file = NULL, myStateName = "ne
     name = myStateName
   }
   names(wti) = "weight"
+  wti$stateName = name
   wti$gene = rownames(wti)
   wti$absW = abs(wti[,1])
   wti = wti[order(wti$absW, decreasing = T),, drop = F]
