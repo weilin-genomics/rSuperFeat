@@ -9,33 +9,33 @@ devtools::install_github('weilin-genomics/rSuperFeat')
 ```
 
 ## Getting started
-For now, four cell states are supported Exhaustion, EMT, CellCycle and Hypoxia. 
+For now, several cell states are supported: Exhaustion, EMT, CellCycle, Hypoxia, Angiogenesis, Differentiation, Inflammation, Quiescent, MacM1Polarization, MacM2Polarization, apCAFSignature, iCAFSignature, mCAFSignature, vCAFSignature, progenitorCAF in human, progenitorCAF in mouse. 
 
 **1.score cell states on your scRNA-seq data**
 
-rSuperFeat takes count matrix as input then converted to a binary matrix
+rSuperFeat takes binary count matrix as input and score cell states.
 ```{r}
 library(rSuperFeat)
 library(Seurat)
 
-myscores <- scoreStates(pbmc_small@assays$RNA@data)
+myscores <- scoreStates(pbmc_small@assays$RNA@data, state = c("CellCycle","EMT","Exhaustion","Hypoxia"))
 
 # set n.chunks if large amount of cells
-myscores <- scoreStates(pbmc_small@assays$RNA@data, n.chunks = 20)
+myscores <- scoreStates(pbmc_small@assays$RNA@data, state = c("CellCycle","EMT","Exhaustion","Hypoxia"), n.chunks = 20)
 
 # add myscores to seurat object to visualize
 pbmc_small = AddMetaData(pbmc_small, metadata = myscores)
 
-# print top features for specific state
-printTopWeights(stateName = "EMT", posN = 150, negN = 150)
+# show top features for specific state
+printTopWeights(stateName = "EMT", showN = 150, print = T)
 ```
 
-**.train new models for your interested cell states.**
+**2.train a new model for your interested cell state.**
 
 (1) prepare training data
 ```{r}
-# this function will fetch Exhaustion and nonExhaustion cells in group column. binarized_data.csv and binarized_info.csv will be saved to data folder. Then use SuperFeat_trainingCode.py to train your model in python console. the weights and bias, model will be saved to models folder when traning finished.
-getMatrix(seurat, column = "group", state1 = "Exhaustion", state0 = "nonExhaustion", prefix = "data/binarized")
+# this step will fetch cells of two states in group column in which g2 is target cell population and g1 is non-target cell population and data required to train the model will be saved to train_data.csv and train_info.csv. Then use SuperFeat_trainingCode.py to train your model in python console. The weights and bias will be saved to models folder when the traning process finished.
+getMatrix(pbmc_small, column = "groups", state1 = "g2", state0 = "g1", prefix = "./data/train")
 ```
 (2) use your model to score new scRNA-seq dataset
 ```{r}
