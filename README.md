@@ -37,6 +37,8 @@ library(AnnotationDbi)
 library(ggplot2)
 
 # LINCS L1000
+eh <- ExperimentHub()
+lincs_path <- eh[['EH3226']]
 geneList = printTopWeights(stateName = "EMT",showN=150)
 upset = mapIds(org.Hs.eg.db, as.character(geneList$pos$gene), 'ENTREZID', 'SYMBOL') 
 dnset = mapIds(org.Hs.eg.db, as.character(geneList$neg$gene), 'ENTREZID', 'SYMBOL') 
@@ -62,6 +64,8 @@ ggplot(g$data,aes(x=pert,y=WTCS,color=cell_type,shape=cell_class)) +
 ggsave('results/dot.lincs.pdf', width = 7, height = 4)
 
 # CMap
+eh <- ExperimentHub()
+cmap_path <- eh[["EH3223"]]
 qsig_cmap <- qSig(query = list(upset=upset, downset=dnset), 
                   gess_method="CMAP", refdb=cmap_path)
 cmap <- gess_cmap(qSig=qsig_cmap, chunk_size=5000, workers=1)
