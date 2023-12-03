@@ -28,6 +28,6 @@ prepare the matrix and cell labels for training
 \examples{
 \dontrun{
 library(Seurat)
-getMatrix(pbmc_small,column = 'group', state1 = "g2", state0 = "g1")
+getMatrix(pbmc_small,column = 'groups', state1 = "g2", state0 = "g1")
 }
 }
