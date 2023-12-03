@@ -34,6 +34,7 @@ drugs search using top weighted genes
 library(signatureSearch)
 library(org.Hs.eg.db)
 library(AnnotationDbi)
+library(ggplot2)
 
 # LINCS L1000
 geneList = printTopWeights(stateName = "EMT",showN=150)
