@@ -84,7 +84,7 @@ ggsave('results/dot.cmap.pdf', width = 6, height = 4)
 
 **2.train a new model for your interested cell state.**
 
-(1) prepare training data. This step will fetch cells of two states in group column in which g2 is target cell population and g1 is non-target cell population and data required to train the model will be saved to train_data.csv and train_info.csv. Then use SuperFeat_trainingCode.py to train your model in python console. The weights and bias will be saved to models folder when the traning process finished.
+(1) prepare training data. This step will fetch cells of two states in group column in which g2 is target cell population and g1 is non-target cell population and data required to train the model will be saved to train_data.csv and train_info.csv. Then use train_new_model/SuperFeat_trainingCode.py to train your model in python console. The weights and bias will be saved to models folder when the traning process finished.
 ```{r}
 getMatrix(pbmc_small, column = "groups", state1 = "g2", state0 = "g1", prefix = "./data/train")
 ```
