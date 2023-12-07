@@ -83,4 +83,4 @@ w1 = pd.DataFrame({'weight':model.get_weights()[0].reshape(-1)}, index = genes_u
 b1 = pd.DataFrame(model.get_weights()[1])
 w1.to_csv('models/w1.csv', header=False, index=False)
 b1.to_csv('models/b1.csv', header=False, index=False)
-model.save('models/model_binarized.h5')
+model.save('models/model.h5')
