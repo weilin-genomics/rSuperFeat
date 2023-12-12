@@ -9,7 +9,7 @@ devtools::install_github('weilin-genomics/rSuperFeat')
 ```
 
 ## Getting started
-For now, several cell states are supported: Exhaustion, EMT, CellCycle, Hypoxia, Angiogenesis, Differentiation, Inflammation, Quiescent, MacM1Polarization, MacM2Polarization, apCAFSignature, iCAFSignature, mCAFSignature, vCAFSignature, progenitorCAF in human, progenitorCAF in mouse. 
+For now, several cell states are supported: Exhaustion, EMT, CellCycle, Hypoxia, Angiogenesis, Differentiation, Inflammation, Quiescent, MacM1Polarization, MacM2Polarization, apCAFSignature, iCAFSignature, mCAFSignature, vCAFSignature, progenitorCAF in human and progenitorCAF in mouse. 
 
 **1.score cell states on your scRNA-seq data**
 
