@@ -15,12 +15,12 @@ import seaborn as sns
 import collections
 
 # choose gated_genes.hs.csv for human, gated_genes.mm.csv for mouse
-genes_used = pd.read_csv('path/to/gated_genes.hs.csv', usecols = [0], header = None)
+genes_used = pd.read_csv('gated_genes.hs.csv', usecols = [0], header = None)
 genes_used = list(genes_used.iloc[:, 0])
 
 # load the training data saved by getMatrix function
-train_data_file = 'path/to/data/binarized_data.csv'
-train_info_file = 'path/to/data/binarized_info.csv'
+train_data_file = 'data/train_data.csv'
+train_info_file = 'data/train_info.csv'
 train_data = pd.read_csv(train_data_file, header = [0], index_col = [0])
 train_info = pd.read_csv(train_info_file, header = [0])
 train_types = list(train_info.loc[:, 'group'])
