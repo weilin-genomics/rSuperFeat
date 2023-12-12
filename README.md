@@ -94,7 +94,7 @@ getMatrix(pbmc_small, column = "groups", state1 = "g2", state0 = "g1", prefix = 
 ```
 (2) use your model to score new scRNA-seq dataset
 ```{r}
-myscores <- scoreStates_selftrain(seuObj@assays$RNA@data, w1_file = "models/w1_binarized.csv", b1_file = "models/b1_binarized.csv")
+myscores <- scoreStates_selftrain(seuObj@assays$RNA@data, w1_file = "models/w1.csv", b1_file = "models/b1.csv")
 seuObj = AddMetaData(seuObj, metadata = myscores)
 ```
 (3) display some top weighted genes and further do drug search using above-mentioned code
