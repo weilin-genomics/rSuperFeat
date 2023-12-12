@@ -99,7 +99,7 @@ seuObj = AddMetaData(seuObj, metadata = myscores)
 ```
 (3) display some top weighted genes and further do drug search using above-mentioned code
 ```{r}
-geneList = printTopWeights(w1_file="./inst/extdata/w1.csv",myStateName = "newState")
+geneList = printTopWeights(w1_file="models/w1.csv",myStateName = "newState")
 ```
 
 ## References
