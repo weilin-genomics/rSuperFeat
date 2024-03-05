@@ -12,9 +12,9 @@ devtools::install_github('weilin-genomics/rSuperFeat')
 ## Getting started
 For now, several cell status are supported: Exhaustion, EMT, CellCycle, Hypoxia, Angiogenesis, Differentiation, Inflammation, Quiescent, MacM1Polarization, MacM2Polarization, apCAFSignature, iCAFSignature, mCAFSignature, vCAFSignature, progenitorCAF in human and progenitorCAF in mouse. 
 
-**1.score cell status on your scRNA-seq data**
+**1.score the cell status on your scRNA-seq data**
 
-rSuperFeat takes binary count matrix as input and score cell status.
+rSuperFeat takes binary count matrix as input and score the cell status.
 ```{r}
 library(rSuperFeat)
 library(Seurat)
