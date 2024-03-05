@@ -1,5 +1,5 @@
 ## rSuperFeat 
-A computational framework to evaluate known cellular states that are oftentimes associated with the critical clinical decisions and drug search. Also, you can train your cell state model to score new datasets. 
+A computational framework to evaluate known cellular status that are oftentimes associated with the critical clinical decisions and drug search. Also, you can train your cell status model to score new datasets. 
 ![image](https://github.com/weilin-genomics/rSuperFeat/assets/37535747/1b3fa7ce-fdb3-4ac5-a772-c918db1e7efb)
 
 ## Installation
@@ -10,11 +10,11 @@ devtools::install_github('weilin-genomics/rSuperFeat')
 ```
 
 ## Getting started
-For now, several cell states are supported: Exhaustion, EMT, CellCycle, Hypoxia, Angiogenesis, Differentiation, Inflammation, Quiescent, MacM1Polarization, MacM2Polarization, apCAFSignature, iCAFSignature, mCAFSignature, vCAFSignature, progenitorCAF in human and progenitorCAF in mouse. 
+For now, several cell status are supported: Exhaustion, EMT, CellCycle, Hypoxia, Angiogenesis, Differentiation, Inflammation, Quiescent, MacM1Polarization, MacM2Polarization, apCAFSignature, iCAFSignature, mCAFSignature, vCAFSignature, progenitorCAF in human and progenitorCAF in mouse. 
 
-**1.score cell states on your scRNA-seq data**
+**1.score cell status on your scRNA-seq data**
 
-rSuperFeat takes binary count matrix as input and score cell states.
+rSuperFeat takes binary count matrix as input and score cell status.
 ```{r}
 library(rSuperFeat)
 library(Seurat)
@@ -27,7 +27,7 @@ myscores <- scoreStates(pbmc_small@assays$RNA@data, state = c("CellCycle","EMT",
 # add myscores to seurat object to visualize
 pbmc_small = AddMetaData(pbmc_small, metadata = myscores)
 
-# show top features for specific state
+# show top features for specific status
 printTopWeights(stateName = "EMT", showN = 150, print = T)
 ```
 **2.drugs search using top weighted genes**
@@ -87,9 +87,9 @@ ggplot(g$data,aes(x=pert,y=raw_score,color=cell_type,shape=cell_class)) +
 ggsave('results/dot.cmap.pdf', width = 6, height = 4)
 ```
 
-**3.train a new model for your interested cell state.**
+**3.train a new model for your interested cell status.**
 
-(1) prepare training data. This step will fetch cells of two states in group column in which g2 is target cell population and g1 is non-target cell population and data required to train the model will be saved to train_data.csv and train_info.csv. Then use train_new_model/SuperFeat_trainingCode.py to train your model in python console. The weights and bias will be saved to models folder when the traning process finished.
+(1) prepare training data. This step will fetch cells of two status in group column in which g2 is target cell population and g1 is non-target cell population and data required to train the model will be saved to train_data.csv and train_info.csv. Then use train_new_model/SuperFeat_trainingCode.py to train your model in python console. The weights and bias will be saved to models folder when the traning process finished.
 ```{r}
 getMatrix(pbmc_small, column = "groups", state1 = "g2", state0 = "g1", prefix = "./data/train")
 ```
