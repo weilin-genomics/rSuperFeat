@@ -30,7 +30,7 @@ pbmc_small = AddMetaData(pbmc_small, metadata = myscores)
 # show top features for specific state
 printTopWeights(stateName = "EMT", showN = 150, print = T)
 ```
-drugs search using top weighted genes
+**2.drugs search using top weighted genes**
 ```{r}
 library(signatureSearch)
 library(org.Hs.eg.db)
@@ -87,7 +87,7 @@ ggplot(g$data,aes(x=pert,y=raw_score,color=cell_type,shape=cell_class)) +
 ggsave('results/dot.cmap.pdf', width = 6, height = 4)
 ```
 
-**2.train a new model for your interested cell state.**
+**3.train a new model for your interested cell state.**
 
 (1) prepare training data. This step will fetch cells of two states in group column in which g2 is target cell population and g1 is non-target cell population and data required to train the model will be saved to train_data.csv and train_info.csv. Then use train_new_model/SuperFeat_trainingCode.py to train your model in python console. The weights and bias will be saved to models folder when the traning process finished.
 ```{r}
