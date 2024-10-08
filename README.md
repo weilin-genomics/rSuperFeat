@@ -1,6 +1,7 @@
 ## rSuperFeat 
 A computational framework to evaluate known cellular status that are oftentimes associated with the critical clinical decisions and drug search. Also, you can train your cell status model to score new datasets. 
-![image](https://github.com/weilin-genomics/rSuperFeat/assets/37535747/1b3fa7ce-fdb3-4ac5-a772-c918db1e7efb)
+<img width="1740" alt="Figure1" src="https://github.com/user-attachments/assets/219bbcbc-0120-4503-8ab5-f44ded8ab7d1">
+
 
 ## Installation
 ```{r}
