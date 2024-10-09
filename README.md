@@ -1,6 +1,6 @@
 ## rSuperFeat 
 A computational framework to evaluate known cellular status that are oftentimes associated with the critical clinical decisions and drug search. Also, you can train your cell status model to score new datasets. 
-<img width="1740" alt="Figure1" src="https://github.com/user-attachments/assets/219bbcbc-0120-4503-8ab5-f44ded8ab7d1">
+![image](https://github.com/user-attachments/assets/7610441b-b9c7-40c6-bb3e-2fb3a769cf9f)
 
 
 ## Installation
